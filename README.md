@@ -1,8 +1,10 @@
 ## OpenGL Bezier Curve Editor
 
+![Demo](./assets/demo.gif)
+
 This project is a fully interactive Bezier spline editor built in Python and OpenGL.
 
-The assignment’s goal was to implement a tool that mimics the **"pen tool"** seen in vector graphics editors — allowing users to **add, move, and manipulate nodes and control points** on a smooth, real-time Bezier spline.
+The project's goal was to implement a tool that mimics the **"pen tool"** seen in vector graphics editors — allowing users to **add, move, and manipulate nodes and control points** on a smooth, real-time Bezier spline.
 
 ### How to Use
 Install the required packages from `requirements.txt`.
