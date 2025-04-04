@@ -1,46 +1,27 @@
-# OpenGL Bezier Curve Editor
+## OpenGL Bezier Curve Editor
 
-## How to use
+This project is a fully interactive Bezier spline editor built in Python and OpenGL.
 
-First install the required packages in `requirements.txt`.
-Then run the app by running 
+The assignment’s goal was to implement a tool that mimics the **"pen tool"** seen in vector graphics editors — allowing users to **add, move, and manipulate nodes and control points** on a smooth, real-time Bezier spline.
 
-```bash
+### How to Use
+Install the required packages from `requirements.txt`.
+Run the application with:
+```python
 python main.py <window_width> <window_height>
 ```
 
-## Components
+### What Was Accomplished
 
-The assignment is split into an engine half and an app half.  
-The engine half handles the window, rendering, and input management.  
-The app half contains all the parts of the assignment. The spline, the control points, the nodes, drawing, etc.
+- **Cubic Bezier Spline Creation**: Users can click to create new spline nodes and dynamically build a continuous curve in any shape they want.
+- **Interactive Dragging**: Nodes and their control points can be clicked and dragged in real time, updating the spline instantly. Intermediate nodes maintain **colinear control points** and **equal distances** during interaction, which was both a geometric and implementation challenge.
+- **Automatic Node Insertion**: When new nodes are inserted, the nearest endpoint is converted into an intermediate node with an added control point, following strict spatial rules. This gives the spline a smart, self-updating behavior.
+- **Crisp, Smooth Rendering**: Implemented full anti-aliasing, multisampling, and smooth point/line rendering. Nodes are rendered as square points, control handles as circular ones, and dotted lines connect control points to their associated nodes.
+- **HDPI & Resolution Handling**: Ensured that input, rendering, and projection all work cleanly across high-resolution displays, using framebuffer dimensions for accuracy.
+- **Reset Functionality**: Pressing `E` clears the canvas, allowing for quick resets and experimentation.
 
-### Engine
+### Why I learned
 
-The app class has the highest level of control during runtime.  
+This was one of my first deep dives into OpenGL, and it gave me a solid foundation in the graphics pipeline — setting up projection matrices, configuring framebuffers, and managing real-time rendering. I implemented a cubic Bézier spline editor entirely in immediate mode OpenGL, which meant handling all geometry and rendering logic myself.
 
-It's initialization creates the window. It also has ownership of the input manager and the renderer.  
-
-Running the app enters the app into a standard glfw main loop. The renderer is told to clear, buffers are swapped, and the app is allowed to draw to the buffer.  
-
-The input manager, renderer, and window classes each handle input, rendering (and drawing), and window openGL and glfw api calls respectively. I've commented as much as possible and I believe the code is relatively readable so please see those files for more details.
-
-### App
-The app half contains the concrete implementation of the abstract app class from the engine as well as app specific classes like spline, control point, and node classes.
-
-Some notes about the code:
-
-> **Control point positions are actually stored as relative to their respective node in memory.**
->
-> At first glance this may seem to complicate the code but really it means many of the operations like moving nodes/control points, calculating the colinear control point's position, and others is much simpler.
->
-> For example, when moving nodes their respective control points must also move with them. If the control points were saved in absolute coordinates both control points would have to be updated when the central node moved but because the control points' positions are relative all that needed to change were the central node's coordinates.
->
-> Secondly, to calculate the other control point's position given the current one we can simple negate its vector. I.e., the vector towards control point 1, $v_1$ is always equal to $-v_2$.
-
->**App windows use the framebuffer size instead of the window size**
-> 
-> This is because on HDPI displays like mine the framebuffer size and the input window size are not actually the same. In my case the framebuffer is 4x as big as the input dimensions as every window pixel in length is actually 2 pixels on my monitor.
-
-# Thanks!
-Aly Ashour  
+What made this project technically engaging was enforcing Bézier spline constraints in real-time — especially keeping control points colinear and equidistant relative to their central node. Doing this with minimal data (storing control points relative to nodes) made the math both cleaner and more interesting. It also exposed me to the quirks of HDPI rendering, multisampling, and how OpenGL maps to windowing systems like GLFW.
