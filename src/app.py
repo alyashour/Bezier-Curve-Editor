@@ -8,7 +8,7 @@ from engine import App
 from .node import Node
 from .spline import Spline
 
-class Assignment3(App):
+class BezierApp(App):
     def __init__(self, width, height, window_name):
         super().__init__(width, height, window_name, 4)
         self.tolerance = 2 # how many times the size of a point should the area that counts as a valid click be?
